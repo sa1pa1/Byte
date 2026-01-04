@@ -1,0 +1,25 @@
+Tests: 
+
+Users: 
+1. Create user
+    curl -X POST http://localhost:3000/api/users/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123","username":"testuser","fullName":"Test User"}'
+
+2. Login
+     curl -X POST http://localhost:3000/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+
+
+Recipes: 
+1. Create a recipe: 
+    curl -X POST http://localhost:3000/api/recipes \
+  -H "Content-Type: application/json" \
+  -d '{"userId":1,"title":"Sallys Pasta","originalSourceUrl":"https://example.com/pasta","modifications":"Added extra garlic and cream","notes":"Perfect for date night!","occasion":"Anniversary"}'
+
+2. Delete a recipe: 
+    curl -X DELETE http://localhost:3000/api/recipes/1 \
+    -H "Content-Type: application/json" \
+    -d '{"userId":1}'
+
