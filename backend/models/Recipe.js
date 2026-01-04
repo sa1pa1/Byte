@@ -55,6 +55,23 @@ class Recipe {
     }
   }
 
+  //find recipe by id
+  static async findbyID(recipeId) {
+    const query = `
+    SELECT r.*, u.username
+    from recipes r
+    LEFT JOIN users u ON r.user_id = u.id
+    WHERE r.id = $1
+    `;
+
+    try {
+      const result = await pool.query(query, [recipeId]);
+      return result.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
   // Delete a recipe
   static async delete(recipeId, userId) {
     const query =

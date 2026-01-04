@@ -7,6 +7,9 @@ router.post("/", recipeController.createRecipe);
 //get recipes by user id
 router.get("/user/:userId", recipeController.getRecipesByUserId);
 
+//get a recipe by id
+router.get("/:id", recipeController.getRecipeById);
+
 //delete a recipe
 router.delete("/:id", recipeController.deleteRecipe);
 

@@ -59,6 +59,26 @@ exports.getRecipesByUserId = async (req, res) => {
   }
 };
 
+//GET RECIPE BY RECIPE ID
+exports.getRecipe = async (req, res) => {
+  const { id: recipeId } = req.params;
+
+  try {
+    const recipe = await Recipe.findbyID(recipeId);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    res.status(200).json({
+      message: "Recipe retrieved successfully",
+      recipe: recipe,
+    });
+  } catch (error) {
+    console.error("Error retrieving recipe:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //DELETE RECIPE
 exports.deleteRecipe = async (req, res) => {
   const { id: recipeId } = req.params;
