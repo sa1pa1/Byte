@@ -123,6 +123,47 @@ class Connection {
       throw error;
     }
   }
+
+  // Delete friend connection (bidirectional)
+  static async deleteFriend(connectionId) {
+    const client = await pool.connect();
+    
+    try {
+      await client.query('BEGIN');
+      
+      // 1. Get the connection details
+      const getQuery = 'SELECT * FROM connections WHERE id = $1';
+      const getResult = await client.query(getQuery, [connectionId]);
+      
+      if (getResult.rows.length === 0) {
+        throw new Error('Connection not found');
+      }
+      
+      const connection = getResult.rows[0];
+      
+      // 2. Delete the original connection
+      await client.query('DELETE FROM connections WHERE id = $1', [connectionId]);
+      
+      // 3. Delete the reverse connection
+      const reverseDeleteQuery = `
+        DELETE FROM connections 
+        WHERE user_id = $1 AND connected_user_id = $2
+      `;
+      await client.query(reverseDeleteQuery, [
+        connection.connected_user_id,
+        connection.user_id
+      ]);
+      
+      await client.query('COMMIT');
+      return connection;
+      
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
 }
 
 module.exports = Connection;

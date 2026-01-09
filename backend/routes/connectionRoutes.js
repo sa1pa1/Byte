@@ -14,4 +14,7 @@ router.get('/friends/:userId', connectionController.getFriends);
 // Get pending requests
 router.get('/pending/:userId', connectionController.getPendingRequests);
 
+// Remove friends
+router.delete('/:connectionId', connectionController.removeFriend);
+
 module.exports = router;

@@ -89,3 +89,24 @@ exports.getPendingRequests = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//REMOVE FRIENDS
+exports.removeFriend = async (req, res) => {
+    const {connectionId} = req.params;
+
+    try {
+        deletedConnection = await Connection.deleteFriend(connectionId);
+
+        if (!deletedConnection) {
+            return res.status(404).json({message: "Connection not found"});
+        }
+
+        res.status(200).json({
+            message: "Friend removed successfully",
+            deletedConnection
+        });
+    } catch (error) {
+        console.error("Error removing friend:", error);
+        res.status(500).json({message: "Internal server error"});
+    }
+};
