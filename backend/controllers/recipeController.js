@@ -60,7 +60,7 @@ exports.getRecipesByUserId = async (req, res) => {
 };
 
 //GET RECIPE BY RECIPE ID
-exports.getRecipe = async (req, res) => {
+exports.getRecipeById = async (req, res) => {
   const { id: recipeId } = req.params;
 
   try {
