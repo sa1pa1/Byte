@@ -112,7 +112,7 @@ class Connection {
   // Get all friends
   static async getFriends(userId) {
     const query = `
-        SELECT c.*, u.username, u.full_name, u.profile_photo_url
+        SELECT c.*, u.username, u.first_name, u.last_name, u.profile_photo_url
         FROM connections c
         JOIN users u ON c.connected_user_id = u.id
         WHERE c.user_id = $1 AND c.status = 'accepted'
@@ -130,7 +130,7 @@ class Connection {
   // Get pending requests
   static async getPendingRequests(userId) {
     const query = `
-        SELECT c.*, u.username, u.email, u.full_name
+        SELECT c.*, u.username, u.email, u.first_name, u.last_name
         FROM connections c 
         JOIN users u ON c.user_id = u.id
         WHERE c.connected_user_id = $1 AND c.status = 'pending'
